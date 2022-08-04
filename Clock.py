@@ -1,12 +1,16 @@
 # Simple pygame program
 
 # Import and initialize the pygame library
+from ast import Num
 import pygame
 import os
+import BackgroundImage
+import Number
+from datetime import datetime
 
 # Tell the RPi to use the TFT screen and that it's a touchscreen device
-os.putenv('SDL_VIDEODRIVER', 'fbcon')
-os.putenv('SDL_FBDEV'      , '/dev/fb1')
+#os.putenv('SDL_VIDEODRIVER', 'fbcon')
+#os.putenv('SDL_FBDEV'      , '/dev/fb0')
 #os.putenv('SDL_MOUSEDRV'   , 'TSLIB')
 #os.putenv('SDL_MOUSEDEV'   , '/dev/input/touchscreen')
 
@@ -24,9 +28,15 @@ from pygame.locals import (
 )
 
 # Set up the drawing window
-#screen = pygame.display.set_mode([320, 200])
-screen = pygame.display.set_mode([0, 0], pygame.FULLSCREEN)
-pygame.mouse.set_visible(False)
+screen = pygame.display.set_mode([320, 240])
+#screen = pygame.display.set_mode([0, 0], pygame.FULLSCREEN)
+#pygame.mouse.set_visible(False)
+
+background = BackgroundImage.Bground()
+
+num = Number.NumSprite("img/SmallNumbers/Clock Small ")
+
+
 
 # Run until the user asks to quit
 running = True
@@ -42,11 +52,23 @@ while running:
 
 
     # Fill the background with white
-    screen.fill((255, 255, 255))
+    screen.fill((25, 60, 62))
 
     # Draw a solid blue circle in the center
-    pygame.draw.circle(screen, (0, 0, 255), (160, 100), 75)
+    #pygame.draw.circle(screen, (0, 0, 255), (160, 100), 75)
 
+    #screen.blit(background.surf, (0,0))
+
+    now = datetime.now()
+    timeString = now.strftime("%H%M")
+    #print('Current Time:', timeString)
+    byteArray = bytes(timeString, 'utf-8')
+
+    screen.blit(num.Surface(byteArray[0]-48), (241,5))    
+    screen.blit(num.Surface(byteArray[1]-48), (259,5))
+
+    screen.blit(num.Surface(byteArray[2]-48), (281,5))        
+    screen.blit(num.Surface(byteArray[3]-48), (299,5))
     # Flip the display
     pygame.display.flip()
 
