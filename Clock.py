@@ -36,8 +36,8 @@ background = BackgroundImage.Bground()
 
 num = Number.NumSprite("img/SmallNumbers/Clock Small ")
 
-
-
+showDot = True
+gameTime = pygame.time.get_ticks() 
 # Run until the user asks to quit
 running = True
 while running:
@@ -52,12 +52,12 @@ while running:
 
 
     # Fill the background with white
-    screen.fill((25, 60, 62))
+    #screen.fill((25, 60, 62))
 
     # Draw a solid blue circle in the center
-    #pygame.draw.circle(screen, (0, 0, 255), (160, 100), 75)
+    
 
-    #screen.blit(background.surf, (0,0))
+    screen.blit(background.surf, (0,0))
 
     now = datetime.now()
     timeString = now.strftime("%H%M")
@@ -69,6 +69,15 @@ while running:
 
     screen.blit(num.Surface(byteArray[2]-48), (281,5))        
     screen.blit(num.Surface(byteArray[3]-48), (299,5))
+
+    if showDot: 
+        pygame.draw.rect(screen, (255, 255, 255), (277,10,2,2), 1)
+        pygame.draw.rect(screen, (255, 255, 255), (277,26,2,2), 1)
+        
+    if pygame.time.get_ticks() > gameTime + 500:
+        showDot = not showDot
+        gameTime = pygame.time.get_ticks()
+
     # Flip the display
     pygame.display.flip()
 
