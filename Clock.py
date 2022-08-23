@@ -1,12 +1,13 @@
-# Simple pygame program
-
-# Import and initialize the pygame library
-from ast import Num
+from ast import And, Num
+from curses import BUTTON1_RELEASED
 import pygame
 import os
 import BackgroundImage
 import Number
+import Button
 from datetime import datetime
+import RPi.GPIO as GPIO
+#import pigpio
 
 # Tell the RPi to use the TFT screen and that it's a touchscreen device
 #os.putenv('SDL_VIDEODRIVER', 'fbcon')
@@ -32,6 +33,14 @@ screen = pygame.display.set_mode([320, 240])
 #screen = pygame.display.set_mode([0, 0], pygame.FULLSCREEN)
 #pygame.mouse.set_visible(False)
 
+btn22=10
+
+ioPin = 10
+GPIO.setwarnings(False) # Ignore warning for now
+GPIO.setmode(GPIO.BOARD) # Use physical pin numbering
+
+button1 = Button.Button(10)
+
 background = BackgroundImage.Bground()
 
 num = Number.NumSprite("img/SmallNumbers/Clock Small ")
@@ -54,8 +63,7 @@ while running:
     # Fill the background with white
     #screen.fill((25, 60, 62))
 
-    # Draw a solid blue circle in the center
-    
+    button1.update()
 
     screen.blit(background.surf, (0,0))
 
@@ -74,12 +82,16 @@ while running:
         pygame.draw.rect(screen, (255, 255, 255), (277,10,2,2), 1)
         pygame.draw.rect(screen, (255, 255, 255), (277,26,2,2), 1)
         
-    if pygame.time.get_ticks() > gameTime + 500:
+    if pygame.time.get_ticks() > gameTime + 1000:
         showDot = not showDot
         gameTime = pygame.time.get_ticks()
 
     # Flip the display
     pygame.display.flip()
 
+    if button1.pressed:
+        print("Button pressed: ")
+
 # Done! Time to quit.
+GPIO.cleanup()
 pygame.quit()
