@@ -15,12 +15,12 @@ class Button():
             self.pressed = False
             if not buttDown: 
                 self.down = False
-                print("Button up: ")
+                #print("Button up: ")
         else:
             if buttDown: 
                 self.down = True
                 self.pressed = True
-                print("Button down: ")
+                #print("Button down: ")
             else:
                 self.pressed = False
  
